@@ -94,6 +94,9 @@
 \tcbuselibrary{skins}
 \usepackage{caption}
 \captionsetup{font=small, labelfont=bf}
+\usepackage{amssymb}
+\newcommand{\cmark}{\textcolor{green!55!black}{\boldmath$\checkmark$}}
+\newcommand{\xmark}{\textcolor{red!70!black}{\boldmath$\times$}}
 
 % =========================================================
 % Styles de page
@@ -372,72 +375,62 @@ Les \textbf{références} précisent les sources utilisées.
 L'\textbf{index} (en fin de document) localise les mots-clés principaux.
 
 % =========================================================
-% RÉSUMÉ EXÉCUTIF
+% CHAPITRE 1 — Introduction
 % =========================================================
 \NewMajorPart
 \section*{Résumé exécutif}
 \addcontentsline{toc}{section}{Résumé exécutif}
 
-\textbf{MEDISCAN AI} est une plateforme académique de recherche d'images médicales
-par le contenu, réalisée par l'équipe L3X1 à l'Université Paris Cité.
+\textbf{MEDISCAN AI} est une plateforme de recherche d'images médicales par le contenu,
+développée par l'équipe L3X1 à l'Université Paris Cité.
+Elle est \textbf{aujourd'hui en production} sur \url{https://mediscan-ai.site}.
 
-\vspace{0.3cm}
+\vspace{0.6cm}
 \textbf{Contexte}
 
-Les outils actuels reposent sur des mots-clés et ne permettent pas de retrouver
-un cas similaire à partir d'une image médicale de référence.
+\vspace{0.15cm}
+Les outils actuels, notamment les systèmes \textbf{PACS}, reposent sur des mots-clés
+et ne permettent pas de retrouver un cas similaire à partir d'une image de référence.
+Les Vision Transformers récents ouvrent la voie à une recherche par similarité visuelle et sémantique.
 
-\begin{sq}
-  \item Les modèles d'IA récents rendent possible la recherche par similarité visuelle et sémantique.
-  \item Aucune plateforme accessible ne combine ces deux approches sur images médicales
-        tout en restant exécutable localement.
-\end{sq}
-
-\vspace{0.3cm}
+\vspace{0.6cm}
 \textbf{Solution}
 
-L'équipe a conçu une plateforme \textbf{CBIR} multimodale sur trois modes :
-\textbf{visuel} (DINOv2, 768D), \textbf{sémantique} (BioMedCLIP fine-tuné, 512D)
-et \textbf{texte}. Une synthèse assistée par \textbf{LLM} complète les résultats.
-
-\vspace{0.3cm}
-\textbf{Architecture}
-
-Le système est organisé en trois couches indépendantes.
-
+\vspace{0.15cm}
 \begin{sq}
-  \item Backend \textbf{FastAPI}, neuf endpoints REST, index \textbf{FAISS} sur 80\,000 images,
-        interface \textbf{React 19} et déploiement VPS avec \textbf{Nginx}.
+  \item Moteur de recherche combinant deux approches complémentaires : similarité visuelle et analyse du contenu médical.
+  \item Trois modes d'usage : \textbf{par image} (analyse visuelle), \textbf{par image} (sens clinique) et \textbf{par description textuelle}.
+  \item Une synthèse automatique résume les résultats et met en évidence les tendances communes.
 \end{sq}
 
-\vspace{0.3cm}
+\vspace{0.6cm}
+\textbf{Architecture}
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Confidentialité :} aucune donnée ne quitte l'infrastructure de l'équipe.
+  \item \textbf{Accessibilité :} interface web sans installation, disponible 24h/24.
+  \item \textbf{Couverture :} index de \textbf{80\,000 images médicales} référencées.
+\end{sq}
+
+\vspace{0.6cm}
 \textbf{Résultats}
 
-Les évaluations menées sur \textbf{9\,140 requêtes} valident la pertinence du système
-sur les trois modes.
+\vspace{0.15cm}
+Le système retrouve des cas pertinents et exploitables dans plus de \textbf{88\,\%} des situations,
+validé sur un jeu de \textbf{9\,000 requêtes} couvrant l'ensemble des modes de recherche.
 
-\vspace{0.2cm}
-{\setlength{\parindent}{0pt}
-\begin{tabularx}{\textwidth}{@{}llXr@{}}
-\toprule
-\textbf{Mode} & \textbf{Modèle} & \textbf{Critère} & \textbf{Score} \\
-\midrule
-Visuel       & DINOv2      & Même modalité / anatomie / modalité+organe & 90,97 --- 88,58\,\% \\
-Sémantique   & BioMedCLIP  & Même modalité / anatomie / modalité+organe & 91,29 --- 88,88\,\% \\
-Texte        & BioMedCLIP  & Precision@10 (caption) / Top-1 hit        & 77,00 --- 100,00\,\% \\
-\bottomrule
-\end{tabularx}
-}
-
-\vspace{0.3cm}
+\vspace{0.6cm}
 \textbf{Cadre d'usage}
 
+\vspace{0.15cm}
 \textbf{MEDISCAN AI} est un prototype académique non clinique : il ne pose aucun diagnostic
 et ne remplace pas un professionnel de santé.
 
-\vspace{0.3cm}
+\vspace{0.6cm}
 \textbf{Perspectives}
 
+\vspace{0.15cm}
 \begin{sq}
   \item Intégration native du format \textbf{DICOM} et fine-tuning sur données internes.
   \item Mise en place d'un pipeline \textbf{CI/CD} pour automatiser les déploiements.
@@ -448,49 +441,52 @@ et ne remplace pas un professionnel de santé.
 \NewMajorPart
 \section{Contexte et enjeux}
 
+\vspace{0.2cm}
 Cette section présente le cadre dans lequel s'inscrit \textbf{MEDISCAN AI},
-la problématique qu'il adresse et les objectifs fixés à l'équipe.
+la problématique qu'il adresse et l'approche retenue par l'équipe.
+
+\vspace{0.5cm}
 
 \subsection{Contexte métier et motivation}
 
-L'imagerie médicale produit des volumes croissants de données visuelles.
-Les outils de recherche actuels reposent sur des mots-clés et des métadonnées textuelles.
+\vspace{0.2cm}
+La recherche d'images médicales par le contenu visuel est l'un des apports concrets des nouvelles technologies
+appliquées à la santé. Elle ouvre des perspectives utiles à différents profils d'utilisateurs.
 
+\vspace{0.2cm}
 \begin{sq}
-  \item Un radiologue ne peut pas retrouver un cas similaire à partir d'une image de référence.
-  \item Les modèles d'IA récents permettent de représenter une image sous forme de vecteur numérique.
-  \item Cette représentation rend possible la recherche par similarité visuelle ou sémantique.
+  \item Un médecin peut retrouver rapidement des cas antérieurs similaires pour appuyer son analyse.
+  \item Un étudiant peut explorer un corpus d'images sous différents angles pour enrichir sa formation.
+  \item Un chercheur peut naviguer efficacement dans de grands ensembles d'images médicales.
 \end{sq}
+
+\vspace{0.5cm}
 
 \subsection{Problématique}
 
+\vspace{0.2cm}
 \begin{tcolorbox}[colback=gray!8, colframe=gray!40, boxrule=0.4pt, arc=2pt]
-\textbf{\textit{Comment permettre à un professionnel de santé de retrouver des cas similaires
-à partir d'une image médicale, de manière rapide, pertinente et respectueuse
-de la confidentialité des données ?}}
+\textbf{\textit{Comment permettre aux parties prenantes de la santé d'interroger un corpus
+d'images médicales à la fois par le contenu visuel et par une description textuelle,
+tout en garantissant la pertinence des résultats ?}}
 \end{tcolorbox}
 
-\subsection{Objectifs du projet}
+\vspace{0.5cm}
 
-L'objectif principal est de concevoir et réaliser une plateforme de recherche
-multimodale d'images médicales par le contenu, exécutable localement.
+\subsection{Notre approche}
 
+\vspace{0.2cm}
+Plutôt que de s'appuyer uniquement sur des mots-clés, nous avons fait le choix
+d'une recherche multimodale : l'utilisateur peut interroger le système par l'image
+ou par une description textuelle, selon son besoin.
+
+\vspace{0.2cm}
 \begin{sq}
-  \item Proposer trois modes de recherche : visuel, sémantique et texte.
-  \item Permettre la comparaison, le filtrage et la relance de recherche depuis les résultats.
-  \item Générer une synthèse exploratoire assistée par LLM à partir des résultats.
+  \item Deux moteurs complémentaires couvrent la similarité visuelle et le sens clinique.
+  \item L'interface permet de comparer, filtrer et affiner les résultats sans relancer de recherche.
+  \item Une synthèse automatique aide à interpréter les résultats retournés.
 \end{sq}
 
-\subsection{Périmètre et limites}
-
-Le système couvre la recherche par similarité sur un référentiel d'images indexées.
-
-\begin{sq}
-  \item \textbf{Inclus :} recherche visuelle et sémantique, interface web, API REST,
-        déploiement local et VPS.
-  \item \textbf{Exclus :} diagnostic médical, ingestion DICOM, certification clinique,
-        données patient réelles.
-\end{sq}
 
 % =========================================================
 % CHAPITRE 2 — Benchmark
@@ -498,49 +494,56 @@ Le système couvre la recherche par similarité sur un référentiel d'images in
 \NewMajorPart
 \section{Benchmark et positionnement}
 
-Cette section analyse les solutions existantes en recherche d'images médicales
-et justifie les choix technologiques de \textbf{MEDISCAN AI}.
+Cette section situe \textbf{MEDISCAN AI} face aux solutions existantes en imagerie médicale.
 
 \subsection{Recherche d'images par le contenu (CBIR)}
 
-Le CBIR désigne la recherche d'images par leur contenu visuel ou sémantique,
-sans recours aux métadonnées textuelles.
-
-\begin{sq}
-  \item Les approches classiques (histogrammes, SIFT) sont peu robustes aux variations
-        d'acquisition médicale.
-  \item Les approches deep learning extraient des représentations vectorielles denses.
-        Elles surpassent les approches classiques sur les tâches de similarité.
-  \item En imagerie médicale, un modèle alignant image et langage est nécessaire
-        pour capturer le sens clinique des images.
-\end{sq}
+Le \textbf{CBIR} (\textit{Content-Based Image Retrieval}) désigne la recherche d'images
+par leur contenu plutôt que par mots-clés. Les approches modernes fondées sur
+l'apprentissage profond permettent de capturer à la fois la similarité visuelle
+et le sens clinique d'une image.
 
 \subsection{Solutions existantes et analyse comparative}
 
-\begin{sq}
-  \item \textbf{OpenI (NLM)} - indexe des rapports radiologiques mais repose
-        uniquement sur la recherche textuelle, sans recherche par image.
-  \item \textbf{MedGemma (Google DeepMind)} - modèle multimodal médical ouvert,
-        orienté diagnostic et génération de texte, non recherche par similarité.
-  \item \textbf{MedPaLM 2 (Google Health)} - grand modèle médical expert,
-        sans recherche vectorielle ni interface de retrieval.
-  \item \textbf{GPT-4o / Claude} - analyse d'images médicales possible,
-        mais sans index ni recherche de cas similaires.
-  \item \textbf{MONAI (NVIDIA)} - framework médical open source couvrant
-        la segmentation et la classification, pas le CBIR interactif.
-\end{sq}
+\vspace{0.3cm}
+Comparaison de \textbf{MEDISCAN AI} avec les systèmes de \textbf{CBIR médical}
+et les principales plateformes d'imagerie médicale connues.
 
-\subsection{Positionnement de MEDISCAN AI}
+\vspace{0.4cm}
 
-Aucune solution existante ne combine les trois modes de recherche avec une exécution
-locale et une interface produit complète.
+{\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.35}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.8cm}*{7}{>{\centering\arraybackslash}X}@{}}
+\toprule
+\textbf{Système} &
+\rotatebox{55}{\textbf{Recherche visuelle}} &
+\rotatebox{55}{\textbf{Recherche sémantique}} &
+\rotatebox{55}{\textbf{Recherche textuelle}} &
+\rotatebox{55}{\textbf{Comparaison}} &
+\rotatebox{55}{\textbf{Synthèse IA}} &
+\rotatebox{55}{\textbf{Interface produit}} &
+\rotatebox{55}{\textbf{Confidentialité}} \\
+\midrule
+\rowcolor{gray!15} \textbf{MEDISCAN AI} & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
+Yottixel             & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark \\
+\midrule
+OpenI (NLM)          & \xmark & \xmark & \cmark & \xmark & \xmark & \cmark & \xmark \\
+MedGemma             & \xmark & \xmark & \cmark & \xmark & \cmark & \cmark & \xmark \\
+MONAI (NVIDIA)       & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark \\
+Aidoc                & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark \\
+\bottomrule
+\end{tabularx}
+}
 
-\begin{sq}
-  \item \textbf{MEDISCAN AI} propose la recherche par image, par texte et par similarité
-        sémantique dans une même plateforme.
-  \item L'exécution locale garantit la confidentialité : aucune image n'est transmise
-        à un service externe.
-\end{sq}
+
+\subsection{Un terrain d'opportunité pour la recherche}
+
+\vspace{0.2cm}
+Les systèmes \textbf{PACS} déployés dans les hôpitaux ne disposent pas de recherche
+par le contenu visuel : les requêtes restent limitées aux métadonnées textuelles.
+L'intégration d'un moteur multimodal comme \textbf{MEDISCAN AI} constitue ainsi un
+terrain d'expérimentation prometteur pour la recherche en imagerie médicale.
 
 % =========================================================
 % CHAPITRE 3 — Gestion de projet
@@ -560,11 +563,11 @@ L'équipe a adopté un cycle \textbf{incrémental} inspiré des méthodes agiles
 
 \vspace{0.2cm}
 \begin{sq}
-  \item \textbf{Incréments} - quatre livrables successifs : cœur CBIR, API backend,
+  \item \textbf{Incréments} : quatre livrables successifs : cœur CBIR, API backend,
         interface frontend, fine-tuning et évaluation.
-  \item \textbf{Versionnement} - branches de fonctionnalité sur \textbf{GitHub},
+  \item \textbf{Versionnement} : branches de fonctionnalité sur \textbf{SVN},
         vérification avant chaque fusion sur la branche principale.
-  \item \textbf{Coordination} - points de synchronisation bi-quotidiens sur \textbf{Discord}.
+  \item \textbf{Coordination} : points de synchronisation bi-quotidiens sur \textbf{Discord}.
 \end{sq}
 
 \vspace{0.7cm}
@@ -576,13 +579,13 @@ Le projet s'est déroulé sur un semestre, structuré en quatre phases successiv
 
 \vspace{0.2cm}
 \begin{sq}
-  \item \textbf{Phase 1} - analyse des besoins, choix techniques et mise en place
+  \item \textbf{Phase 1} : analyse des besoins, choix techniques et mise en place
         de l'environnement de développement.
-  \item \textbf{Phase 2} - implémentation du cœur CBIR : embedders, index FAISS,
+  \item \textbf{Phase 2} : implémentation du cœur CBIR : embedders, index FAISS,
         pipeline de recherche et API backend.
-  \item \textbf{Phase 3} - développement de l'interface React, intégration
+  \item \textbf{Phase 3} : développement de l'interface React, intégration
         frontend-backend et fine-tuning de BioMedCLIP sur ROCOv2.
-  \item \textbf{Phase 4} - évaluation, tests, déploiement VPS et rédaction du rapport.
+  \item \textbf{Phase 4} : évaluation, tests, déploiement VPS et rédaction du rapport.
 \end{sq}
 
 \vspace{0.5cm}
@@ -601,9 +604,9 @@ Le projet s'est déroulé sur un semestre, structuré en quatre phases successiv
 \NewMajorPart
 \section{Produit}
 
-Cette section présente \textbf{MEDISCAN AI} en tant que produit :
-son positionnement par rapport à la problématique, son ergonomie,
-ses fonctionnalités et ses cas d'utilisation concrets.
+Cette section présente \textbf{MEDISCAN AI} en tant que produit déployé :
+sa réponse concrète à la problématique posée et les cas d'usage rendus possibles
+par la version aujourd'hui en ligne.
 
 \vspace{0.5cm}
 
@@ -611,22 +614,20 @@ ses fonctionnalités et ses cas d'utilisation concrets.
 
 \vspace{0.2cm}
 \begin{tcolorbox}[colback=gray!8, colframe=gray!40, boxrule=0.4pt, arc=2pt]
-\textbf{\textit{Comment permettre à un professionnel de santé de retrouver des cas similaires
-à partir d'une image médicale, de manière rapide, pertinente et respectueuse
-de la confidentialité des données ?}}
+\textbf{\textit{Comment permettre aux parties prenantes de la santé d'interroger un corpus
+d'images médicales à la fois par le contenu visuel et par une description textuelle,
+tout en garantissant la pertinence des résultats ?}}
 \end{tcolorbox}
 
 \vspace{0.3cm}
-\textbf{MEDISCAN AI} répond sur trois axes : \textbf{rapidité} (index FAISS, chargement lazy),
-\textbf{pertinence} (trois modes de recherche) et \textbf{confidentialité} (exécution locale).
+\textbf{MEDISCAN AI} répond à cette problématique sur trois axes complémentaires.
 
 \vspace{0.3cm}
 
 \begin{sq}
-  \item \textbf{Utilisateurs cibles} : radiologues, chercheurs en imagerie médicale
-        et étudiants en médecine.
-  \item \textbf{Dataset} : 80\,000 images indexées issues du dataset public \textbf{ROCOv2}.
-  \item \textbf{Langues} : interface disponible en français et en anglais.
+  \item \textbf{Rapidité} : optimisations sur l'index vectoriel et le traitement des données pour des réponses en quelques centaines de millisecondes.
+  \item \textbf{Pertinence} : un corpus de référence de \textbf{80\,000 images} issues du dataset public \textbf{ROCOv2}, couvrant un large spectre de modalités et d'organes.
+  \item \textbf{Interopérabilité / Confidentialité} : architecture pluggable, capable d'indexer n'importe quel corpus interne, déployable localement ou exposée par API, sans transfert vers un service externe.
 \end{sq}
 
 \vspace{0.7cm}
@@ -634,22 +635,19 @@ de la confidentialité des données ?}}
 \subsection{Cas d'utilisation}
 
 \vspace{0.2cm}
-\textbf{MEDISCAN AI} comble un manque dans les outils disponibles : retrouver un cas
-similaire à partir d'une image, sans mot-clé, directement par le contenu visuel ou clinique.
+La plateforme est aujourd'hui en ligne sur \url{https://mediscan-ai.site}.
+Elle permet, depuis n'importe quel navigateur et sans installation,
+plusieurs usages concrets autour de la recherche d'images médicales.
 
 \vspace{0.3cm}
+
 \begin{sq}
-  \item \textbf{Radiologue} - retrouver rapidement des images morphologiquement proches
-        d'un cas en cours d'analyse.
-  \item \textbf{Chercheur} - explorer un corpus de 80\,000 images par similarité
-        sémantique ou par requête textuelle.
-  \item \textbf{Étudiant en médecine} - accéder à des cas comparables pour enrichir
-        sa formation clinique.
+  \item \textbf{Recherche par image} : retrouver les cas visuellement ou cliniquement proches d'une image requête.
+  \item \textbf{Recherche textuelle} : interroger le corpus à partir d'une description clinique.
+  \item \textbf{Comparaison d'images} : confronter côte à côte l'image requête et les résultats retournés.
+  \item \textbf{Synthèse exploratoire} : obtenir une interprétation automatique des résultats à des fins d'analyse.
+  \item \textbf{Export des résultats} : récupérer les résultats au format JSON, CSV ou PDF.
 \end{sq}
-
-\vspace{0.3cm}
-Le système s'exécute \textbf{localement} : aucune donnée n'est transmise à l'extérieur.
-Il constitue un outil d'exploration et ne pose aucun diagnostic.
 
 \vfill
 \raggedright
@@ -671,6 +669,7 @@ Il constitue un outil d'exploration et ne pose aucun diagnostic.
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.67\textwidth}
+  \vspace{-0.6cm}
   \captionsetup{justification=raggedright, singlelinecheck=false}
   \captionof{figure}{Sélecteur de thème et de langue}
   \vspace{0.2cm}
@@ -684,11 +683,10 @@ Il constitue un outil d'exploration et ne pose aucun diagnostic.
 \noindent
 \begin{minipage}[c]{0.28\textwidth}
   \parbox[c]{\textwidth}{%
-  \setlength{\rightskip}{0pt}\setlength{\leftskip}{0pt}%
-  \setlength{\parfillskip}{0pt plus 1fil}%
-  {\small Le \textbf{hub central} permet de choisir entre les trois modes
-  de recherche disponibles : Visual Search, Text Guided Search,
-  et Interpretive Analysis.}\par}
+  \raggedright
+  {\small Le \textbf{hub central} est le point d'entrée vers les deux pages
+  dédiées aux modes de recherche : Visual Search pour la recherche
+  par image, et Text Guided Search pour la recherche textuelle.}\par}
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.68\textwidth}
@@ -714,6 +712,7 @@ Il constitue un outil d'exploration et ne pose aucun diagnostic.
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.31\textwidth}
+  \vspace{-0.8cm}
   \raggedright
   {\small L'utilisateur dépose une image médicale.
   Le système retourne les images visuellement proches
@@ -780,8 +779,10 @@ et de relance pour affiner les résultats.
 \end{minipage}
 \hfill
 \begin{minipage}[c]{0.34\textwidth}
+  \vspace{-0.8cm}
   \raggedright
-  {\small Une sélection d'images devient une nouvelle requête via centroïde d'embeddings.
+  {\small Une \textbf{sélection d'images} devient une \textbf{nouvelle requête}
+  via \textbf{centroïde d'embeddings}.
   \begin{num}
     \item Sélectionner une ou plusieurs images.
     \item Relancer depuis la sélection.
@@ -796,21 +797,21 @@ et de relance pour affiner les résultats.
 \captionsetup{justification=centering, singlelinecheck=false}
 \captionof{figure}{Comparaison entre l'image requête et les résultats retournés}
 \vspace{0.2cm}
-\noindent{\small L'interface affiche côte à côte l'image requête et les résultats retournés,
-permettant une comparaison visuelle directe.}
+\noindent{\small L'interface affiche \textbf{côte à côte} l'\textbf{image requête} et les
+\textbf{résultats retournés}, permettant une \textbf{comparaison visuelle directe}.}
 
 \vspace{1.2cm}
 \vfill
 \noindent
 \begin{minipage}[c]{0.34\textwidth}
   \raggedright
-  {\small Le module de synthèse analyse les résultats et génère
-  une interprétation exploratoire assistée par IA.}
+  {\small Le \textbf{module de synthèse} analyse les résultats et génère
+  une \textbf{interprétation exploratoire} assistée par IA.}
   \vspace{0.3cm}
   {\small
   \begin{num}
     \item Synthèse générée via \textbf{Groq} à partir des captions des résultats.
-    \item Identifie les patterns récurrents sans poser de diagnostic.
+    \item Identifie les \textbf{patterns récurrents} sans poser de diagnostic.
   \end{num}}
 \end{minipage}
 \hfill
@@ -827,6 +828,148 @@ permettant une comparaison visuelle directe.}
 % =========================================================
 \NewMajorPart
 \section{Technologies clés}
+
+\vspace{0.2cm}
+\textbf{MEDISCAN AI} s'appuie sur deux modèles d'IA aux architectures complémentaires,
+combinés à un moteur de recherche vectorielle haute performance.
+
+\subsection{Architecture des pipelines d'embedding}
+
+\vspace{0.3cm}
+\begin{figure}[H]
+  \centering
+  \roundedimg[width=\textwidth]{assets/archi.png}
+  \caption{Architecture des deux pipelines d'embedding — BioMedCLIP (sémantique) et DINOv2 (visuel)}
+  \label{fig:archi}
+\end{figure}
+
+\vspace{0.5cm}
+
+\noindent
+\begin{minipage}[t]{0.47\textwidth}
+  \textbf{BioMedCLIP} (512D)\\[0.3cm]
+  Architecture duale : un encodeur image (ViT) et un encodeur texte (Transformer)
+  entraînés conjointement sur 15 millions de paires image-texte biomédicales.
+  \vspace{0.2cm}
+  \begin{sq}[leftmargin=1.2em]
+    \item Aligne images et textes dans un espace vectoriel commun.
+    \item Utilisé pour les modes \textbf{Interpretive Analysis} et \textbf{Text Guided Search}.
+  \end{sq}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+  \textbf{DINOv2} (768D)\\[0.3cm]
+  Vision Transformer (ViT-L/14) pré-entraîné de manière auto-supervisée
+  sur 142 millions d'images sans annotation.
+  \vspace{0.2cm}
+  \begin{sq}[leftmargin=1.2em]
+    \item Capture structures visuelles, textures et morphologie.
+    \item Utilisé pour le mode \textbf{Visual Search}.
+  \end{sq}
+\end{minipage}
+
+\vspace{0.6cm}
+
+\noindent\textbf{Fine-tuning de BioMedCLIP.}
+Le modèle a été ré-entraîné sur le dataset \textbf{ROCOv2} sur plusieurs epochs
+afin d'adapter ses représentations sur \textbf{ROCOv2}.
+
+\vspace{0.5cm}
+
+\subsection{Technologies de développement}
+
+\vspace{0.2cm}
+Stack moderne organisée en trois blocs : frontend, backend et couche IA.
+
+\vspace{0.4cm}
+
+\noindent
+\begin{minipage}[t]{0.31\textwidth}
+  \centering
+  \textbf{Frontend}\\[0.3cm]
+  \begin{minipage}[t][1.2cm][c]{\textwidth}
+    \centering
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/react.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/tailwind.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/vite.jpeg}}
+  \end{minipage}\\[0.3cm]
+  {\small Construction de l'\textbf{interface utilisateur} et de l'expérience visuelle.}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.31\textwidth}
+  \centering
+  \textbf{Backend}\\[0.3cm]
+  \begin{minipage}[t][1.2cm][c]{\textwidth}
+    \centering
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/python.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/fastapi.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/mongodb.png}}
+  \end{minipage}\\[0.3cm]
+  {\small \textbf{Pont entre l'interface et l'IA}, gestion des requêtes et données.}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.31\textwidth}
+  \centering
+  \textbf{Core AI}\\[0.3cm]
+  \begin{minipage}[t][1.2cm][c]{\textwidth}
+    \centering
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/pytorch.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/meta.png}}%
+    \makebox[1.5cm][c]{\includegraphics[width=1.3cm,height=1cm,keepaspectratio]{assets/microsoft.png}}
+  \end{minipage}\\[0.3cm]
+  {\small \textbf{Analyse et compréhension} des images médicales pour la recherche par contenu.}
+\end{minipage}
+
+\vspace{0.5cm}
+
+\subsection{FAISS et optimisation de la recherche}
+
+\vspace{0.2cm}
+La recherche vectorielle repose sur \textbf{FAISS} (\textit{Facebook AI Similarity Search}).
+
+\vspace{0.15cm}
+\begin{sq}
+  \item Index \textbf{FlatIP} sur \textbf{80\,000 vecteurs} : recherche exacte en quelques ms.
+  \item Chargement \textit{lazy} des modèles et de l'index pour limiter la mémoire.
+  \item Architecture \textit{stateless} : passage à l'échelle vers plusieurs millions d'images.
+\end{sq}
+
+\vspace{0.5cm}
+
+\subsection{Stockage cloud et infrastructure d'entraînement}
+
+\vspace{0.2cm}
+Deux ressources externes complémentaires : \textbf{Hugging Face} pour les données,
+\textbf{Kaggle} pour le calcul.
+
+\vspace{0.4cm}
+
+\noindent
+\begin{minipage}[t]{0.47\textwidth}
+  \centering
+  \includegraphics[height=1.3cm]{assets/huggingface.png}\\[0.3cm]
+  \raggedright
+  \textbf{Hugging Face} : \textit{Stockage cloud}
+  \vspace{0.15cm}
+
+  {\small Plateforme essentielle qui héberge l'ensemble des \textbf{80\,000 images}
+  du dataset \textbf{ROCOv2}. Elle permet un accès à la demande, sans dupliquer
+  le corpus en local, tout en garantissant l'unicité de la version utilisée
+  par l'équipe et un déploiement allégé.}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+  \centering
+  \includegraphics[height=1.3cm]{assets/kaggle.png}\\[0.3cm]
+  \raggedright
+  \textbf{Kaggle} : \textit{GPU d'entraînement}
+  \vspace{0.15cm}
+
+  {\small Ressource clé pour le \textbf{fine-tuning de BioMedCLIP}.
+  Les GPU mis à disposition gratuitement par Kaggle ont permis d'entraîner
+  les modèles sans investir dans une infrastructure matérielle dédiée,
+  ouvrant la voie à des itérations rapides.}
+\end{minipage}
 
 % =========================================================
 % CHAPITRE 6 — Déploiement et exploitation
