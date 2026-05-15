@@ -1,0 +1,18 @@
+# LaTeX fichiers auxiliaires
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.idx
+*.ilg
+*.ind
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.bbl
+*.blg
+
+# PDF généré (optionnel — décommente si tu veux versionner le PDF)
+# *.pdf
