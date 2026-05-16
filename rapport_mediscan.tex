@@ -1036,11 +1036,170 @@ L'architecture choisie permet une montée en charge progressive.
 \NewMajorPart
 \section{Évaluation et résultats}
 
+\vspace{0.2cm}
+L'équipe a pu s'appuyer sur des \textbf{annotations manuelles} produites par des
+\textbf{doctorants en imagerie médicale}, fournissant une vérité terrain experte
+(\textbf{modalité}, \textbf{organe}, \textbf{région anatomique}). Plus de \textbf{9\,000 requêtes}
+ont ainsi été évaluées sur les deux moteurs.
+
+\vspace{0.5cm}
+
+\subsection{Résultats du moteur visuel (DINOv2)}
+
+\vspace{0.3cm}
+
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{assets/dinov2Prec.png}
+  \captionsetup{justification=centering, singlelinecheck=false}
+  \captionof{figure}{DINOv2 : Precision@k}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{assets/dinov2HIT.png}
+  \captionsetup{justification=centering, singlelinecheck=false}
+  \captionof{figure}{DINOv2 : Hit@k}
+\end{minipage}
+
+\vspace{0.3cm}
+\noindent{\small\textbf{Interprétation.}
+DINOv2 obtient une \textbf{Precision} élevée sur la modalité et l'anatomie, confirmant
+qu'il capture efficacement les structures visuelles. Le \textbf{Hit@k} valide son usage
+pour la recherche par similarité visuelle.}
+
+\vspace{0.5cm}
+
+\subsection{Résultats du moteur sémantique (BioMedCLIP)}
+
+\vspace{0.3cm}
+
+\noindent
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{assets/biomedclipPrec.png}
+  \captionsetup{justification=centering, singlelinecheck=false}
+  \captionof{figure}{BioMedCLIP : Precision@k}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\textwidth]{assets/biomedclipHIT.png}
+  \captionsetup{justification=centering, singlelinecheck=false}
+  \captionof{figure}{BioMedCLIP : Hit@k}
+\end{minipage}
+
+\vspace{0.3cm}
+\noindent{\small\textbf{Interprétation.}
+BioMedCLIP capte mieux le \textbf{sens clinique} grâce à son alignement image-texte
+fine-tuné sur ROCOv2. Ses scores combinant modalité et organe sont supérieurs à DINOv2,
+validant son usage pour la recherche sémantique.}
+
+\vspace{0.7cm}
+
+\subsection{Tests unitaires}
+
+\vspace{0.2cm}
+Une stratégie de tests \textbf{unitaires} et \textbf{d'intégration} a été mise en place
+pour garantir la fiabilité du backend et la stabilité du pipeline de recherche.
+
+\vspace{0.2cm}
+\begin{sq}
+  \item \textbf{Backend :} tests \texttt{pytest} couvrant les neuf endpoints REST,
+        validation des entrées, formats de réponse, gestion des erreurs.
+  \item \textbf{Pipeline CBIR :} tests sur les embedders, le chargement des index
+        \textbf{FAISS} et la cohérence des résultats de recherche.
+  \item \textbf{Intégration :} scénarios bout-en-bout simulant une requête utilisateur
+        depuis l'upload d'image jusqu'au retour des résultats.
+\end{sq}
+
+\vspace{0.7cm}
+
+\subsection{Performance technique}
+
+\vspace{0.2cm}
+Au-delà de la pertinence des résultats, le système a été évalué sur ses
+\textbf{performances en production}.
+
+\vspace{0.2cm}
+\begin{sq}
+  \item \textbf{Temps de réponse :} recherche vectorielle exécutée en
+        \textbf{quelques centaines de millisecondes} sur l'index de 80\,000 vecteurs.
+  \item \textbf{Empreinte mémoire :} chargement \textit{lazy} des modèles et de l'index
+        pour limiter la consommation au démarrage.
+  \item \textbf{Scalabilité :} architecture \textit{stateless} permettant de déployer
+        plusieurs instances backend derrière Nginx pour absorber la charge.
+\end{sq}
+
+\vspace{0.7cm}
+
+\subsection{Limites observées et synthèse}
+
+\vspace{0.2cm}
+\begin{sq}
+  \item \textbf{Modalités rares :} les modalités sous-représentées dans ROCOv2 obtiennent des scores plus faibles que les modalités majoritaires.
+  \item \textbf{Captions ambiguës :} la recherche textuelle est sensible à la qualité et à la précision de la description fournie.
+  \item \textbf{Dépendance au dataset :} les performances reflètent le périmètre de ROCOv2 et ne préjugent pas du comportement sur d'autres corpus médicaux.
+\end{sq}
+
+\vspace{0.3cm}
+\noindent\textbf{Synthèse.}
+Malgré ces limites, les résultats valident la pertinence de \textbf{MEDISCAN AI} :
+les deux moteurs sont \textbf{complémentaires} (DINOv2 pour la proximité visuelle,
+BioMedCLIP pour le sens clinique), les tests garantissent la fiabilité du système
+et les performances permettent un usage fluide en production.
+
 % =========================================================
 % CHAPITRE 8 — Difficultés rencontrées
 % =========================================================
 \NewMajorPart
 \section{Difficultés rencontrées}
+
+\vspace{0.2cm}
+Cette section revient sur les principales difficultés rencontrées au cours du projet.
+
+\vspace{0.5cm}
+
+\subsection{Fine-tuning et choix des modèles}
+
+\vspace{0.15cm}
+Plusieurs candidats existaient pour la partie sémantique (BioMedCLIP, PubMedCLIP, MedCLIP).
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Choix du modèle :} sélection de \textbf{BioMedCLIP} pour son alignement image-texte biomédical.
+  \item \textbf{Fine-tuning :} adaptation à \textbf{ROCOv2} avec plusieurs itérations d'hyperparamètres.
+  \item \textbf{Ressources GPU limitées :} entraînement sur les GPU \textbf{Kaggle}, avec des quotas contraints.
+\end{sq}
+
+\vspace{0.5cm}
+
+\subsection{Manipulation d'un dataset volumineux}
+
+\vspace{0.15cm}
+Les \textbf{80\,000 images} de ROCOv2 ont soulevé plusieurs défis de volumétrie.
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Stockage et bande passante :} dépendance à \textbf{Hugging Face}, téléchargements non négligeables.
+  \item \textbf{Génération des embeddings :} opération longue et coûteuse en mémoire sur les deux modèles.
+  \item \textbf{Manque de ressources cloud :} pas de cluster GPU dédié, contraintes mémoire sur le VPS.
+\end{sq}
+
+\vspace{0.5cm}
+
+\subsection{Absence de benchmark de référence en CBIR médical}
+
+\vspace{0.15cm}
+Aucun \textbf{benchmark standardisé} n'existe pour évaluer un système CBIR médical multimodal.
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Méthodologie ad hoc :} démarche d'évaluation construite à partir des métadonnées.
+  \item \textbf{Annotations expertes :} mobilisation de \textbf{doctorants en imagerie médicale} pour la vérité terrain.
+  \item \textbf{Comparabilité :} difficulté à confronter les résultats à d'autres systèmes.
+\end{sq}
 
 % =========================================================
 % CHAPITRE 9 — Bilan et retour d'expérience
