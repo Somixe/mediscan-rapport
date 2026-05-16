@@ -95,6 +95,10 @@
 \usepackage{caption}
 \captionsetup{font=small, labelfont=bf}
 \usepackage{amssymb}
+\usepackage{multicol}
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{0.6em}
+\setlength{\cftbeforesubsecskip}{0.25em}
 \newcommand{\cmark}{\textcolor{green!55!black}{\boldmath$\checkmark$}}
 \newcommand{\xmark}{\textcolor{red!70!black}{\boldmath$\times$}}
 
@@ -289,7 +293,13 @@ se sont constituées au sein de l'équipe, reflétées dans la répartition des 
 % SOMMAIRE
 % =========================================================
 \newpage
+\begingroup
+\setlength{\columnsep}{1cm}
+\renewcommand{\baselinestretch}{1.1}\fontsize{11pt}{13pt}\selectfont
+\begin{multicols}{2}
 \tableofcontents
+\end{multicols}
+\endgroup
 
 % =========================================================
 % LISTE DES ILLUSTRATIONS
@@ -307,72 +317,66 @@ se sont constituées au sein de l'équipe, reflétées dans la répartition des 
 
 \vspace{0.3cm}
 
-Le présent \textbf{rapport de projet} documente l'intégralité du cycle de réalisation
-de \textbf{MEDISCAN AI}. Il adopte une structure professionnelle couvrant la gestion
-de projet, la conception, la réalisation et l'exploitation du système.
+Ce rapport documente le cycle complet de réalisation de \textbf{MEDISCAN AI},
+de la définition de la problématique jusqu'au déploiement en production.
+Plusieurs parcours de lecture sont proposés ci-dessous selon le profil du lecteur.
+
+\vspace{0.3cm}
+Le \textbf{Résumé exécutif} constitue le \textbf{point d'entrée commun à tous les lecteurs}
+et donne une vision globale du projet en une page.
 
 \vspace{0.6cm}
 
-\textbf{Manager ou décideur - Vision stratégique}
+\textbf{Manager ou décideur : vision stratégique}
 
-\vspace{0.2cm}
-
-Pour comprendre le projet et sa valeur ajoutée sans entrer dans les détails techniques :
-
+\vspace{0.15cm}
+Pour saisir la valeur du projet sans entrer dans les détails techniques.
 \begin{sq}
-  \item \textbf{Résumé exécutif} - synthèse du projet en une page
-  \item \textbf{Chapitre 1} - contexte, enjeux métier et objectifs
-  \item \textbf{Chapitre 9} - bilan, retour sur investissement et perspectives
+  \item \textbf{Section 1} : contexte, enjeux et approche
+  \item \textbf{Section 4} : produit déployé et cas d'usage
+  \item \textbf{Sections 9 et 11} : bilan et perspectives
 \end{sq}
 
 \vspace{0.6cm}
 
-\textbf{Encadrant technique - Architecture et réalisation}
+\textbf{Encadrant technique : architecture et réalisation}
 
-\vspace{0.2cm}
-
-Pour évaluer les choix techniques et la qualité de l'implémentation :
-
+\vspace{0.15cm}
+Pour évaluer les choix techniques et la qualité de l'implémentation.
 \begin{sq}
-  \item \textbf{Chapitre 2} - benchmark et justification des technologies retenues
-  \item \textbf{Chapitre 5} - architecture globale, pipeline CBIR, modèle de données
-  \item \textbf{Chapitre 6} - réalisation et extraits de code significatifs
-  \item \textbf{Chapitre 8} - déploiement, configuration et maintenance
+  \item \textbf{Section 2} : benchmark et positionnement
+  \item \textbf{Section 5} : technologies clés et architecture
+  \item \textbf{Section 6} : déploiement et infrastructure
+  \item \textbf{Section 10} : impact des IA agentiques
+  \item \textbf{Annexe A} : documentation API REST
 \end{sq}
 
 \vspace{0.6cm}
 
-\textbf{Encadrant pédagogique - Rigueur et méthode}
+\textbf{Encadrant pédagogique : rigueur et méthode}
 
-\vspace{0.2cm}
-
-Pour évaluer la démarche projet et la conformité aux exigences :
-
+\vspace{0.15cm}
+Pour apprécier la démarche projet et la méthodologie d'évaluation.
 \begin{sq}
-  \item \textbf{Chapitre 3} - gestion de projet, méthodologie et planning
-  \item \textbf{Chapitre 4} - cahier des charges, besoins fonctionnels et non fonctionnels
-  \item \textbf{Chapitre 7} - recette, stratégie de tests et gestion des risques
+  \item \textbf{Section 3} : gestion de projet et planning
+  \item \textbf{Section 7} : évaluation et résultats
+  \item \textbf{Section 8} : difficultés rencontrées
 \end{sq}
 
 \vspace{0.6cm}
 
-\textbf{Lecteur externe - Fonctionnalités et positionnement}
+\textbf{Lecteur externe : fonctionnalités et positionnement}
 
-\vspace{0.2cm}
-
-Pour comprendre ce que fait le système et comment il se positionne :
-
+\vspace{0.15cm}
+Pour comprendre ce que fait le système et comment il se distingue.
 \begin{sq}
-  \item \textbf{Chapitre 1} - contexte et enjeux
-  \item \textbf{Chapitre 2} - benchmark et positionnement concurrentiel
-  \item \textbf{Annexe C} - captures d'écran de l'application
+  \item \textbf{Sections 1 et 2} : contexte et paysage concurrentiel
+  \item \textbf{Section 4} : produit, ergonomie et cas d'usage
 \end{sq}
 
 \vspace{0.6cm}
 
-Le \textbf{glossaire} (Annexe F) définit les termes spécialisés du rapport.
-Les \textbf{références} précisent les sources utilisées.
-L'\textbf{index} (en fin de document) localise les mots-clés principaux.
+Le \textbf{glossaire} (Annexe D) définit les termes spécialisés du rapport.
 
 % =========================================================
 % CHAPITRE 1 — Introduction
@@ -466,9 +470,9 @@ appliquées à la santé. Elle ouvre des perspectives utiles à différents prof
 
 \vspace{0.2cm}
 \begin{tcolorbox}[colback=gray!8, colframe=gray!40, boxrule=0.4pt, arc=2pt]
-\textbf{\textit{Comment permettre aux parties prenantes de la santé d'interroger un corpus
-d'images médicales à la fois par le contenu visuel et par une description textuelle,
-tout en garantissant la pertinence des résultats ?}}
+\textbf{\textit{Comment rendre praticable la recherche d'images médicales pertinentes
+dans de larges corpus, sans dépendre exclusivement d'annotations manuelles
+et dans le respect de la confidentialité des données ?}}
 \end{tcolorbox}
 
 \vspace{0.5cm}
@@ -505,25 +509,23 @@ et le sens clinique d'une image.
 
 \subsection{Solutions existantes et analyse comparative}
 
-\vspace{0.3cm}
 Comparaison de \textbf{MEDISCAN AI} avec les systèmes de \textbf{CBIR médical}
 et les principales plateformes d'imagerie médicale connues.
 
-\vspace{0.4cm}
-
-{\setlength{\parindent}{0pt}
-\renewcommand{\arraystretch}{1.35}
-\small
-\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.8cm}*{7}{>{\centering\arraybackslash}X}@{}}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.15}
+\footnotesize
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.5cm}*{7}{>{\centering\arraybackslash}X}@{}}
 \toprule
 \textbf{Système} &
-\rotatebox{55}{\textbf{Recherche visuelle}} &
-\rotatebox{55}{\textbf{Recherche sémantique}} &
-\rotatebox{55}{\textbf{Recherche textuelle}} &
-\rotatebox{55}{\textbf{Comparaison}} &
-\rotatebox{55}{\textbf{Synthèse IA}} &
-\rotatebox{55}{\textbf{Interface produit}} &
-\rotatebox{55}{\textbf{Confidentialité}} \\
+\rotatebox{55}{\scriptsize\textbf{Recherche visuelle}} &
+\rotatebox{55}{\scriptsize\textbf{Recherche sémantique}} &
+\rotatebox{55}{\scriptsize\textbf{Recherche textuelle}} &
+\rotatebox{55}{\scriptsize\textbf{Comparaison}} &
+\rotatebox{55}{\scriptsize\textbf{Synthèse IA}} &
+\rotatebox{55}{\scriptsize\textbf{Interface produit}} &
+\rotatebox{55}{\scriptsize\textbf{Confidentialité}} \\
 \midrule
 \rowcolor{gray!15} \textbf{MEDISCAN AI} & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark & \cmark \\
 Yottixel             & \cmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark \\
@@ -534,12 +536,12 @@ MONAI (NVIDIA)       & \xmark & \xmark & \xmark & \xmark & \xmark & \cmark & \cm
 Aidoc                & \xmark & \xmark & \xmark & \xmark & \cmark & \cmark & \xmark \\
 \bottomrule
 \end{tabularx}
-}
-
+\caption{Comparaison de MEDISCAN AI avec les principales plateformes d'imagerie médicale}
+\label{tab:benchmark}
+\end{table}
 
 \subsection{Un terrain d'opportunité pour la recherche}
 
-\vspace{0.2cm}
 Les systèmes \textbf{PACS} déployés dans les hôpitaux ne disposent pas de recherche
 par le contenu visuel : les requêtes restent limitées aux métadonnées textuelles.
 L'intégration d'un moteur multimodal comme \textbf{MEDISCAN AI} constitue ainsi un
@@ -614,9 +616,9 @@ par la version aujourd'hui en ligne.
 
 \vspace{0.2cm}
 \begin{tcolorbox}[colback=gray!8, colframe=gray!40, boxrule=0.4pt, arc=2pt]
-\textbf{\textit{Comment permettre aux parties prenantes de la santé d'interroger un corpus
-d'images médicales à la fois par le contenu visuel et par une description textuelle,
-tout en garantissant la pertinence des résultats ?}}
+\textbf{\textit{Comment rendre praticable la recherche d'images médicales pertinentes
+dans de larges corpus, sans dépendre exclusivement d'annotations manuelles
+et dans le respect de la confidentialité des données ?}}
 \end{tcolorbox}
 
 \vspace{0.3cm}
@@ -871,8 +873,8 @@ combinés à un moteur de recherche vectorielle haute performance.
 \vspace{0.6cm}
 
 \noindent\textbf{Fine-tuning de BioMedCLIP.}
-Le modèle a été ré-entraîné sur le dataset \textbf{ROCOv2} sur plusieurs epochs
-afin d'adapter ses représentations sur \textbf{ROCOv2}.
+Le modèle a été ré-entraîné sur le dataset \textbf{ROCOv2} pendant plusieurs epochs
+afin d'y adapter ses représentations.
 
 \vspace{0.5cm}
 
@@ -1207,11 +1209,140 @@ Aucun \textbf{benchmark standardisé} n'existe pour évaluer un système CBIR m�
 \NewMajorPart
 \section{Bilan et retour d'expérience}
 
+Cette section dresse un bilan du projet, à la fois sur les acquis techniques
+et sur l'expérience humaine vécue par l'équipe au cours du semestre.
+
+\vspace{0.15cm}
+
+\subsection{Réussites techniques}
+
+Le projet a abouti à une plateforme fonctionnelle, complète et déployée en production,
+accessible publiquement à l'adresse \texttt{mediscan-ai.site}.
+\begin{sq}
+  \item \textbf{Multimodalité :} intégration réussie de la recherche visuelle, sémantique et textuelle dans une seule interface cohérente.
+  \item \textbf{Mise en production :} déploiement complet sur VPS avec \textbf{Nginx}, \textbf{SSL} et services systemd pour garantir la stabilité du service.
+  \item \textbf{Fine-tuning :} adaptation effective de \textbf{BioMedCLIP} sur ROCOv2, avec des résultats validés par les doctorants en imagerie médicale.
+\end{sq}
+
+\vspace{0.15cm}
+
+\subsection{Apports méthodologiques}
+
+Le projet a permis de structurer une démarche complète d'ingénierie logicielle
+appliquée à un cas concret d'intelligence artificielle.
+\begin{sq}
+  \item \textbf{Cycle incrémental :} découpage en quatre livrables successifs, du cœur CBIR au déploiement final.
+  \item \textbf{Évaluation rigoureuse :} construction d'une méthodologie d'évaluation appuyée sur des annotations expertes et plus de 9\,000 requêtes.
+  \item \textbf{Versionnement collaboratif :} usage quotidien de \textbf{Git} avec branches de fonctionnalités, revues croisées et historique propre.
+\end{sq}
+
+\vspace{0.15cm}
+
+\subsection{Apports humains et travail d'équipe}
+
+Au-delà des aspects techniques, le projet a constitué une véritable expérience
+de collaboration et d'apprentissage collectif.
+\begin{sq}
+  \item \textbf{Spécialisation progressive :} chaque membre a développé une expertise reconnue (IA, frontend, backend, tests).
+  \item \textbf{Coordination :} points de synchronisation réguliers sur \textbf{Discord} pour partager les blocages et avancées.
+  \item \textbf{Polyvalence :} contribution croisée de chaque membre à plusieurs composants du système, renforçant la cohésion d'équipe.
+\end{sq}
+
 % =========================================================
-% CHAPITRE 10 — Perspectives
+% CHAPITRE 10 — Impact agentic AI
+% =========================================================
+\NewMajorPart
+\section{Impact agentic AI}
+
+Cette section revient sur l'usage des IA agentiques dans la réalisation du projet
+et sur leur apport à la productivité de l'équipe.
+
+\vspace{0.15cm}
+
+\subsection{État actuel des IA agentiques}
+
+Les modèles d'IA dits \textbf{agentiques} ont connu une évolution rapide en 2024-2025,
+passant de simples assistants conversationnels à de véritables collaborateurs capables
+d'agir sur du code, des fichiers et des outils.
+\begin{sq}
+  \item \textbf{Claude (Anthropic)} et \textbf{Codex (OpenAI)} dominent les usages développeurs avec leurs capacités d'écriture, de relecture et de refactorisation de code.
+  \item Les agents savent désormais \textbf{exécuter des commandes}, lire des logs, modifier plusieurs fichiers et raisonner sur un projet entier.
+\end{sq}
+
+\vspace{0.15cm}
+
+\subsection{Utilisation dans le projet}
+
+L'équipe a intégré ces outils à différentes étapes du développement, de la conception
+à la rédaction du rapport, à travers des prompts ciblés.
+\begin{sq}
+  \item \textbf{Génération de code :} \textit{« Écris un endpoint FastAPI qui retourne les k plus proches voisins via FAISS à partir d'une image uploadée. »}
+  \item \textbf{Debug et refactorisation :} \textit{« Pourquoi ce test pytest échoue ? Propose un correctif. »}
+  \item \textbf{Rédaction et structuration :} \textit{« Rédige la section Évaluation en t'appuyant sur les graphiques DINOv2 et BioMedCLIP. »}
+\end{sq}
+
+\vspace{0.15cm}
+
+\subsection{Apports et limites}
+
+L'usage des IA agentiques a transformé la manière de travailler, sans pour autant
+remplacer le jugement humain.
+\begin{sq}
+  \item \textbf{Avantages :} accélération du développement, exploration rapide de pistes techniques, qualité de code améliorée et gain de temps sur les tâches répétitives.
+  \item \textbf{Limites :} nécessité de relire systématiquement les sorties, risques d'hallucinations sur des contextes pointus, dépendance à un service externe.
+  \item \textbf{Posture adoptée :} l'IA reste un assistant ; chaque proposition est validée, testée et adaptée par l'équipe avant intégration.
+\end{sq}
+
+% =========================================================
+% CHAPITRE 11 — Perspectives
 % =========================================================
 \NewMajorPart
 \section{Perspectives}
+
+\vspace{0.2cm}
+Plusieurs pistes d'évolution se dessinent pour prolonger et enrichir \textbf{MEDISCAN AI}.
+
+\vspace{0.5cm}
+
+\subsection{Évolutions fonctionnelles}
+
+\vspace{0.15cm}
+La plateforme peut s'enrichir de nouvelles capacités côté utilisateur.
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Support du format DICOM :} ingestion native des images médicales au format standard hospitalier.
+  \item \textbf{Recherche par filtres avancés :} combinaison de critères cliniques (modalité, organe, pathologie).
+  \item \textbf{Export enrichi :} génération de rapports PDF combinant images, scores et synthèse IA.
+\end{sq}
+
+\vspace{0.5cm}
+
+\subsection{Évolutions techniques}
+
+\vspace{0.15cm}
+L'infrastructure et les modèles peuvent être renforcés pour passer à l'échelle.
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Pipeline CI/CD :} automatisation des tests, du build et du déploiement à chaque commit.
+  \item \textbf{Index FAISS optimisé :} passage d'un index \textbf{FlatIP} à un index \textbf{IVF} ou \textbf{HNSW} pour des volumes supérieurs.
+  \item \textbf{Fine-tuning continu :} ré-entraînement régulier sur de nouvelles données pour améliorer la pertinence.
+\end{sq}
+
+\vspace{0.5cm}
+
+\subsection{Vers la recherche et l'industrie}
+
+\vspace{0.15cm}
+\textbf{MEDISCAN AI} ouvre des perspectives concrètes d'usage au-delà du cadre académique.
+
+\vspace{0.15cm}
+\begin{sq}
+  \item \textbf{Intégration aux systèmes PACS :} brancher le moteur multimodal sur les bases hospitalières existantes.
+  \item \textbf{Partenariats cliniques :} collaboration avec des établissements pour valider l'usage en conditions réelles.
+  \item \textbf{Publications et benchmarks :} contribuer à combler le manque de standards d'évaluation en CBIR médical.
+\end{sq}
 
 % =========================================================
 % RÉFÉRENCES BIBLIOGRAPHIQUES
@@ -1237,52 +1368,13 @@ Aucun \textbf{benchmark standardisé} n'existe pour évaluer un système CBIR m�
 \NewMajorPart
 \appendix
 
-\section{Guide d'installation et de déploiement}
-
-\subsection*{Prérequis}
-
-\begin{sq}
-  \item Python 3.11+, Node.js 20+, Git.
-  \item 4 Go de RAM minimum (index FAISS + modèles chargés en mémoire).
-  \item Clé API Groq pour la synthèse IA.
-\end{sq}
-
-\subsection*{Installation backend}
-
-\begin{num}
-  \item Cloner le dépôt : \texttt{git clone <url> \&\& cd mediscan-cbir}
-  \item Créer l'environnement virtuel : \texttt{python -m venv .venv \&\& source .venv/bin/activate}
-  \item Installer les dépendances : \texttt{pip install -r requirements.txt}
-  \item Copier le fichier de configuration : \texttt{cp .env.example .env}
-        puis renseigner la clé API Groq et les chemins des index.
-  \item Lancer le serveur : \texttt{uvicorn main:app -{}-host 0.0.0.0 -{}-port 8000}
-\end{num}
-
-\subsection*{Installation frontend}
-
-\begin{num}
-  \item Aller dans le répertoire frontend : \texttt{cd frontend}
-  \item Installer les dépendances : \texttt{npm install}
-  \item Lancer en développement : \texttt{npm run dev}
-  \item Ou compiler pour la production : \texttt{npm run build}
-\end{num}
-
-\subsection*{Déploiement VPS (production)}
-
-\begin{sq}
-  \item Configurer Nginx comme reverse proxy vers \texttt{localhost:8000} (backend)
-        et le dossier \texttt{dist/} (frontend).
-  \item Créer un service \textbf{systemd} pour Gunicorn et l'activer
-        avec \texttt{systemctl enable mediscan}.
-  \item Configurer le certificat SSL avec Certbot pour le domaine \texttt{mediscan-ai.site}.
-\end{sq}
-
 \section{Documentation API REST}
 
 Les neuf endpoints de l'API sont exposés sous la base \texttt{/api/v1}.
 
 \vspace{0.3cm}
-{\setlength{\parindent}{0pt}
+\begin{table}[H]
+\centering
 \begin{tabularx}{\textwidth}{@{}llX@{}}
 \toprule
 \textbf{Méthode} & \textbf{Endpoint} & \textbf{Description} \\
@@ -1298,9 +1390,9 @@ GET  & \texttt{/export/pdf}       & Export des résultats au format PDF. \\
 GET  & \texttt{/health}           & Vérification de l'état du service. \\
 \bottomrule
 \end{tabularx}
-}
-
-\section{Captures d'écran de l'application}
+\caption{Endpoints REST exposés par l'API MEDISCAN AI}
+\label{tab:api-rest}
+\end{table}
 
 \section{Extraits de code complets}
 
