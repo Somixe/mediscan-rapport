@@ -414,7 +414,7 @@ Les Vision Transformers récents ouvrent la voie à une recherche par similarit�
 \begin{sq}
   \item \textbf{Confidentialité :} aucune donnée ne quitte l'infrastructure de l'équipe.
   \item \textbf{Accessibilité :} interface web sans installation, disponible 24h/24.
-  \item \textbf{Couverture :} index de \textbf{80\,000 images médicales} référencées.
+  \item \textbf{Couverture :} index de \textbf{60\,000 images médicales} référencées.
 \end{sq}
 
 \vspace{0.6cm}
@@ -628,7 +628,7 @@ et dans le respect de la confidentialité des données ?}}
 
 \begin{sq}
   \item \textbf{Rapidité} : optimisations sur l'index vectoriel et le traitement des données pour des réponses en quelques centaines de millisecondes.
-  \item \textbf{Pertinence} : un corpus de référence de \textbf{80\,000 images} issues du dataset public \textbf{ROCOv2}, couvrant un large spectre de modalités et d'organes.
+  \item \textbf{Pertinence} : un corpus de référence de \textbf{60\,000 images} issues du dataset public \textbf{ROCOv2}, couvrant un large spectre de modalités et d'organes.
   \item \textbf{Interopérabilité / Confidentialité} : architecture pluggable, capable d'indexer n'importe quel corpus interne, déployable localement ou exposée par API, sans transfert vers un service externe.
 \end{sq}
 
@@ -931,7 +931,7 @@ La recherche vectorielle repose sur \textbf{FAISS} (\textit{Facebook AI Similari
 
 \vspace{0.15cm}
 \begin{sq}
-  \item Index \textbf{FlatIP} sur \textbf{80\,000 vecteurs} : recherche exacte en quelques ms.
+  \item Index \textbf{FlatIP} sur \textbf{60\,000 vecteurs} : recherche exacte en quelques ms.
   \item Chargement \textit{lazy} des modèles et de l'index pour limiter la mémoire.
   \item Architecture \textit{stateless} : passage à l'échelle vers plusieurs millions d'images.
 \end{sq}
@@ -954,7 +954,7 @@ Deux ressources externes complémentaires : \textbf{Hugging Face} pour les donn�
   \textbf{Hugging Face} : \textit{Stockage cloud}
   \vspace{0.15cm}
 
-  {\small Plateforme essentielle qui héberge l'ensemble des \textbf{80\,000 images}
+  {\small Plateforme essentielle qui héberge l'ensemble des \textbf{60\,000 images}
   du dataset \textbf{ROCOv2}. Elle permet un accès à la demande, sans dupliquer
   le corpus en local, tout en garantissant l'unicité de la version utilisée
   par l'équipe et un déploiement allégé.}
@@ -1024,7 +1024,7 @@ sans installation côté utilisateur.
 L'architecture choisie permet une montée en charge progressive.
 
 \begin{sq}
-  \item L'index FAISS est conçu pour passer de 80\,000 à plusieurs millions d'images
+  \item L'index FAISS est conçu pour passer de 60\,000 à plusieurs millions d'images
         sans modifier l'interface ni l'API.
   \item Le backend FastAPI est sans état (\textit{stateless}) : plusieurs instances
         peuvent être déployées en parallèle derrière Nginx pour absorber la charge.
@@ -1127,7 +1127,7 @@ Au-delà de la pertinence des résultats, le système a été évalué sur ses
 \vspace{0.2cm}
 \begin{sq}
   \item \textbf{Temps de réponse :} recherche vectorielle exécutée en
-        \textbf{quelques centaines de millisecondes} sur l'index de 80\,000 vecteurs.
+        \textbf{quelques centaines de millisecondes} sur l'index de 60\,000 vecteurs.
   \item \textbf{Empreinte mémoire :} chargement \textit{lazy} des modèles et de l'index
         pour limiter la consommation au démarrage.
   \item \textbf{Scalabilité :} architecture \textit{stateless} permettant de déployer
@@ -1180,7 +1180,7 @@ Plusieurs candidats existaient pour la partie sémantique (BioMedCLIP, PubMedCLI
 \subsection{Manipulation d'un dataset volumineux}
 
 \vspace{0.15cm}
-Les \textbf{80\,000 images} de ROCOv2 ont soulevé plusieurs défis de volumétrie.
+Les \textbf{60\,000 images} de ROCOv2 ont soulevé plusieurs défis de volumétrie.
 
 \vspace{0.15cm}
 \begin{sq}
