@@ -1,0 +1,17 @@
+\babel@toc {french}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Planning du projet MEDISCAN AI}}{9}{figure.caption.6}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Page d'accueil de MEDISCAN AI}}{11}{figure.caption.7}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Sélecteur de thème et de langue}}{11}{figure.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Hub de sélection du mode de recherche}}{11}{figure.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Mode Visual Analysis}}{12}{figure.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Mode Interpretive Analysis}}{12}{figure.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Mode Text Query}}{12}{figure.7}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Grille de résultats avec filtres et scores de similarité}}{13}{figure.8}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Relance de recherche depuis une sélection d'images}}{13}{figure.9}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Comparaison entre l'image requête et les résultats retournés}}{14}{figure.10}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Synthèse exploratoire générée par IA}}{14}{figure.11}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Architecture des deux pipelines d'embedding — BioMedCLIP (sémantique) et DINOv2 (visuel)}}{15}{figure.caption.8}%
+\contentsline {figure}{\numberline {13}{\ignorespaces DINOv2 : Precision@k}}{18}{figure.13}%
+\contentsline {figure}{\numberline {14}{\ignorespaces DINOv2 : Hit@k}}{18}{figure.14}%
+\contentsline {figure}{\numberline {15}{\ignorespaces BioMedCLIP : Precision@k}}{18}{figure.15}%
+\contentsline {figure}{\numberline {16}{\ignorespaces BioMedCLIP : Hit@k}}{18}{figure.16}%
